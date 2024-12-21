@@ -1,0 +1,12 @@
+{
+  "[typescript][typescriptreact][javascript][javascriptreact][json]": {
+    "editor.formatOnSave": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.codeActionsOnSave.mode": "all",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always"
+  },
+  "js/ts.implicitProjectConfig.checkJs": true,
+  "typescript.inlayHints.parameterNames.enabled": "all"
+}
