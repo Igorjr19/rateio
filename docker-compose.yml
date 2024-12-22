@@ -1,0 +1,43 @@
+services:
+  app:
+    container_name: rateio-app
+    build: 
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT}:${PORT}"
+    expose:
+      - "${PORT}"
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_NAME=${POSTGRES_NAME}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+    depends_on:
+      - db
+    networks:
+      - rateio
+    restart: always
+      
+  db:
+    image: postgres:14
+    container_name: ${POSTGRES_NAME}-db
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_NAME}
+    expose:
+      - ${POSTGRES_PORT}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - rateio
+      
+volumes:
+  db-data:
+
+networks:
+  rateio:
+    external: true
