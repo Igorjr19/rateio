@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { IsNumber, IsString } from 'class-validator';
 
-export class SessionDto {
+export class Session {
   @ApiProperty()
   @Expose()
   @IsString()
@@ -13,7 +13,7 @@ export class SessionDto {
   @IsNumber()
   expiresIn: number;
 
-  constructor(params: Partial<SessionDto>) {
+  constructor(params: Partial<Session>) {
     Object.assign(this, params);
   }
 }

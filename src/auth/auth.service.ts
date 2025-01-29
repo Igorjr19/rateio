@@ -4,7 +4,8 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { FirebaseService } from 'src/firebase/firebase.service';
 import { UserService } from 'src/user/user.service';
 
-import { SessionDto } from './dto/session.dto';
+import { UserIn } from '../user/dto/user.dto';
+import { Session } from './dto/session.dto';
 
 @Injectable()
 export class AuthService {
@@ -32,7 +33,7 @@ export class AuthService {
     const decodedToken = this.jwtService.decode(firebaseToken);
     const expiresIn = parseInt(decodedToken.exp) * 1000;
 
-    const session = new SessionDto({
+    const session = new Session({
       token: firebaseToken,
       expiresIn: expiresIn,
     });
@@ -49,5 +50,17 @@ export class AuthService {
       console.error(error);
     }
     return null;
+  }
+
+  async signUp(userIn: UserIn): Promise<Session> {
+    const user = { ...userIn };
+    delete user.password;
+    await this.firebaseService.createUser({
+      email: userIn.email,
+      emailVerified: false,
+      password: userIn.password,
+    });
+    await this.userService.create(user);
+    return await this.login(userIn.email, userIn.password);
   }
 }

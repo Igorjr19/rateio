@@ -1,10 +1,11 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { ApiOkResponse } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { Public } from 'src/decorators/public.decorator';
+import { UserIn } from 'src/user/dto/user.dto';
 
 import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
-import { SessionDto } from './dto/session.dto';
+import { Login } from './dto/login.dto';
+import { Session } from './dto/session.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -14,9 +15,19 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Public()
   @ApiOkResponse({
-    type: SessionDto,
+    type: Session,
   })
-  async login(@Body() loginDto: LoginDto): Promise<SessionDto> {
+  async login(@Body() loginDto: Login): Promise<Session> {
     return await this.authService.login(loginDto.email, loginDto.password);
+  }
+
+  @Post('signup')
+  @HttpCode(HttpStatus.CREATED)
+  @Public()
+  @ApiCreatedResponse({
+    type: Session,
+  })
+  async signUp(@Body() userIn: UserIn): Promise<Session> {
+    return await this.authService.signUp(userIn);
   }
 }

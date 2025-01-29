@@ -39,4 +39,8 @@ export class FirebaseService implements OnModuleInit {
   verifyIdToken(token: string) {
     return this.admin.auth().verifyIdToken(token);
   }
+
+  createUser(user: admin.auth.CreateRequest) {
+    return this.admin.auth().createUser(user);
+  }
 }
