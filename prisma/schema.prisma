@@ -8,6 +8,15 @@ datasource db {
 }
 
 model User {
-  id    String @id @default(uuid())
-  email String @unique
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  phone     String   @unique
+  birthdate DateTime
+  role      Role     @default(USER)
+}
+
+enum Role {
+  USER
+  ADMIN
 }
