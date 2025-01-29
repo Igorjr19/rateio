@@ -9,4 +9,5 @@ datasource db {
 
 model User {
   id    String @id @default(uuid())
+  email String @unique
 }
