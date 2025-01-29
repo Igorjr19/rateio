@@ -2,6 +2,7 @@ import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import * as client from 'firebase/app';
 import { FirebaseApp } from 'firebase/app';
 import * as admin from 'firebase-admin';
+import * as serviceAccount from 'secrets/service-account.json';
 import firebaseConfig, { FirebaseConfig } from 'src/config/firebase.config';
 
 @Injectable()
@@ -20,7 +21,15 @@ export class FirebaseService implements OnModuleInit {
     }
 
     this.app = client.initializeApp(this.config, 'client');
-    this.admin = admin.initializeApp(this.config, 'admin');
+
+    this.admin = admin.initializeApp(
+      {
+        credential: admin.credential.cert(
+          serviceAccount as admin.ServiceAccount,
+        ),
+      },
+      'admin',
+    );
   }
 
   getApp(): FirebaseApp {
