@@ -4,5 +4,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Module({
   providers: [PrismaService, FirebaseService],
+  exports: [PrismaService, FirebaseService],
 })
 export class CommomModule {}
