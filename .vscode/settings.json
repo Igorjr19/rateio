@@ -8,5 +8,8 @@
     "source.fixAll": "always"
   },
   "js/ts.implicitProjectConfig.checkJs": true,
-  "typescript.inlayHints.parameterNames.enabled": "all"
+  "typescript.inlayHints.parameterNames.enabled": "all",
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
 }
