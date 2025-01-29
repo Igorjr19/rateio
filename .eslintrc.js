@@ -32,5 +32,6 @@ module.exports = {
     'import/no-duplicates': 'error',
     'unused-imports/no-unused-imports': 'error',
     '@typescript-eslint/consistent-type-imports': 'error',
+    'prettier/prettier': ['error', { endOfLine: 'auto' }],
   },
 };
