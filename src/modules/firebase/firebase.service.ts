@@ -44,4 +44,8 @@ export class FirebaseService implements OnModuleInit {
   createUser(user: admin.auth.CreateRequest) {
     return this.admin.auth().createUser(user);
   }
+
+  deleteUser(uid: string) {
+    return this.admin.auth().deleteUser(uid);
+  }
 }

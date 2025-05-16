@@ -20,7 +20,12 @@ export class UserRepository {
     }
 
     return this.prismaService.user.create({
-      data: user,
+      data: {
+        email: user.email,
+        name: user.name,
+        birthdate: user.birthdate,
+        phone: user.phone,
+      },
     });
   }
 

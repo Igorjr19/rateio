@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { FirebaseService } from 'src/modules/firebase/firebase.service';
 
+import { PrismaErrorClasses } from '../prisma/types/prisma';
 import { UserIn } from '../user/dto/user.dto';
 import { UserService } from '../user/user.service';
 import { Session } from './dto/session.dto';
@@ -53,14 +54,20 @@ export class AuthService {
   }
 
   async signUp(userIn: UserIn): Promise<Session> {
-    const user = { ...userIn };
-    delete user.password;
-    await this.firebaseService.createUser({
-      email: userIn.email,
-      emailVerified: false,
-      password: userIn.password,
-    });
-    await this.userService.create(user);
+    let firebaseUser;
+    try {
+      firebaseUser = await this.firebaseService.createUser({
+        email: userIn.email,
+        emailVerified: false,
+        password: userIn.password,
+      });
+      await this.userService.create(userIn);
+    } catch (error) {
+      if (PrismaErrorClasses.includes(error.constructor) && firebaseUser) {
+        await this.firebaseService.deleteUser(firebaseUser.uid);
+      }
+      throw error;
+    }
     return await this.login(userIn.email, userIn.password);
   }
 }
