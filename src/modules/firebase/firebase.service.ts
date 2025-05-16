@@ -4,8 +4,6 @@ import { FirebaseApp } from 'firebase/app';
 import * as admin from 'firebase-admin';
 import firebaseConfig, { FirebaseConfig } from 'src/config/firebase.config';
 
-import * as serviceAccount from '../../../secrets/service-account.json';
-
 @Injectable()
 export class FirebaseService implements OnModuleInit {
   private app: FirebaseApp;
@@ -23,11 +21,13 @@ export class FirebaseService implements OnModuleInit {
 
     this.app = client.initializeApp(this.config, 'client');
 
+    const serviceAccount = JSON.parse(
+      Buffer.from(this.config.serviceAccount, 'base64').toString('utf-8'),
+    );
+
     this.admin = admin.initializeApp(
       {
-        credential: admin.credential.cert(
-          serviceAccount as admin.ServiceAccount,
-        ),
+        credential: admin.credential.cert(serviceAccount),
       },
       'admin',
     );
