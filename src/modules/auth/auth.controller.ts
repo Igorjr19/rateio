@@ -1,8 +1,8 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { Public } from 'src/decorators/public.decorator';
-import { UserIn } from 'src/user/dto/user.dto';
 
+import { UserIn } from '../user/dto/user.dto';
 import { AuthService } from './auth.service';
 import { Login } from './dto/login.dto';
 import { Session } from './dto/session.dto';

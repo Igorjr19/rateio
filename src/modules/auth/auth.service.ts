@@ -1,10 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { FirebaseService } from 'src/firebase/firebase.service';
-import { UserService } from 'src/user/user.service';
+import { FirebaseService } from 'src/modules/firebase/firebase.service';
 
 import { UserIn } from '../user/dto/user.dto';
+import { UserService } from '../user/user.service';
 import { Session } from './dto/session.dto';
 
 @Injectable()
