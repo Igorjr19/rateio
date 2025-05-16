@@ -4,9 +4,9 @@ services:
     build: 
       dockerfile: Dockerfile
     ports:
-      - "${PORT}:${PORT}"
+      - "${API_PORT}:${API_PORT}"
     expose:
-      - "${PORT}"
+      - "${API_PORT}"
     environment:
       - POSTGRES_HOST=db
       - POSTGRES_NAME=${POSTGRES_NAME}
