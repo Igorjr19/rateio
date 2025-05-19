@@ -21,7 +21,7 @@ export class AuthController {
     return await this.authService.login(loginDto.email, loginDto.password);
   }
 
-  @Post('signup')
+  @Post('register')
   @HttpCode(HttpStatus.CREATED)
   @Public()
   @ApiCreatedResponse({
