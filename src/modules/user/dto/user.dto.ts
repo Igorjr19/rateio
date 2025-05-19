@@ -6,8 +6,15 @@ import {
   IsPhoneNumber,
   IsString,
   IsStrongPassword,
+  Length,
+  Matches,
   MaxDate,
 } from 'class-validator';
+
+const NicknameRegex = /^[a-zA-Z0-9_]+$/;
+const NicknameLength = { min: 3, max: 20 };
+const NicknameErrorMessage =
+  'Nickname can only contain letters, numbers, and underscores';
 
 export class UserIn {
   @ApiProperty()
@@ -24,6 +31,14 @@ export class UserIn {
   @Expose()
   @IsString()
   name: string;
+
+  @ApiProperty()
+  @Expose()
+  @Matches(NicknameRegex, {
+    message: NicknameErrorMessage,
+  })
+  @Length(NicknameLength.min, NicknameLength.max)
+  nickname: string;
 
   @ApiProperty()
   @Expose()

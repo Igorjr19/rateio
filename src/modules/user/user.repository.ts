@@ -25,6 +25,7 @@ export class UserRepository {
         name: user.name,
         birthdate: user.birthdate,
         phone: user.phone,
+        nickname: user.nickname,
       },
     });
   }
