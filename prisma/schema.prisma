@@ -10,10 +10,11 @@ datasource db {
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
+  birthdate DateTime
   name      String
   phone     String   @unique
-  birthdate DateTime
   role      Role     @default(USER)
+  nickname  String   @unique
 }
 
 enum Role {
