@@ -13,6 +13,9 @@ RUN pnpm install
 COPY tsconfig.json .
 COPY tsconfig.build.json .
 COPY nest-cli.json .
+COPY prisma ./prisma
 COPY src ./src
+
+RUN pnpm prisma generate
 
 CMD ["pnpm", "start:dev"]
