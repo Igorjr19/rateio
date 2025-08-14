@@ -1,14 +1,24 @@
 import { registerAs } from '@nestjs/config';
+import { getEnvOrDefault, getEnvOrThrow } from 'src/util/env.util';
+
+const serviceAccount = getEnvOrThrow('FIREBASE_SERVICE_ACCOUNT');
+const apiKey = getEnvOrThrow('FIREBASE_API_KEY');
+const projectId = getEnvOrThrow('FIREBASE_PROJECT_ID');
+const authDomain = `${projectId}.firebaseapp.com`;
+const storageBucket = `${projectId}.appspot.com`;
+const messagingSenderId = getEnvOrThrow('FIREBASE_MESSAGING_SENDER_ID');
+const appId = getEnvOrThrow('FIREBASE_APP_ID');
+const measurementId = getEnvOrDefault('FIREBASE_MEASUREMENT_ID', '');
 
 export const firebaseConfigFactory = () => ({
-  serviceAccount: process.env.FIREBASE_SERVICE_ACCOUNT,
-  apiKey: process.env.FIREBASE_API_KEY,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  authDomain: `${process.env.FIREBASE_PROJECT_ID}.firebaseapp.com`,
-  storageBucket: `${process.env.FIREBASE_PROJECT_ID}.appspot.com`,
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.FIREBASE_APP_ID,
-  measurementId: process.env.FIREBASE_MEASUREMENT_ID ?? '',
+  serviceAccount,
+  apiKey,
+  authDomain,
+  projectId,
+  storageBucket,
+  messagingSenderId,
+  appId,
+  measurementId,
 });
 
 export type FirebaseConfig = ReturnType<typeof firebaseConfigFactory>;
