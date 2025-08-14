@@ -11,4 +11,4 @@ logs:
 	docker compose --project-name rateio logs -f
 
 down-clear:
-	docker compose --project-name rateio down --rmi all --volumes --remove-orphans
+	docker compose --project-name rateio down --rmi all --remove-orphans
