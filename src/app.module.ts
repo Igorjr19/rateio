@@ -7,6 +7,7 @@ import apiConfig from './config/api.config';
 import firebaseConfig from './config/firebase.config';
 import { AuthModule } from './modules/auth/auth.module';
 import { CommonModule } from './modules/common/common.module';
+import { LoggerModule } from './modules/logger/logger.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { CommonModule } from './modules/common/common.module';
       isGlobal: true,
       load: [apiConfig, firebaseConfig],
     }),
+    LoggerModule,
     CommonModule,
     AuthModule,
   ],
