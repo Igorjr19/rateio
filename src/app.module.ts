@@ -1,24 +1,14 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import apiConfig from './config/api.config';
-import firebaseConfig from './config/firebase.config';
+import { ConfigModule } from './config/config.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { CommonModule } from './modules/common/common.module';
 import { LoggerModule } from './modules/logger/logger.module';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      load: [apiConfig, firebaseConfig],
-    }),
-    LoggerModule,
-    CommonModule,
-    AuthModule,
-  ],
+  imports: [ConfigModule, LoggerModule, CommonModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
