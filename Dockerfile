@@ -13,9 +13,7 @@ RUN pnpm install
 COPY tsconfig.json .
 COPY tsconfig.build.json .
 COPY nest-cli.json .
-COPY prisma ./prisma
 COPY src ./src
-
-RUN pnpm prisma generate
+COPY mikro-orm.config.ts .
 
 CMD ["pnpm", "start:dev"]

@@ -1,9 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 import { FirebaseService } from 'src/modules/firebase/firebase.service';
 
-import { PrismaErrorClasses } from '../prisma/types/prisma';
 import { UserIn } from '../user/dto/user.dto';
 import { UserService } from '../user/user.service';
 import { Session } from './dto/session.dto';
@@ -11,6 +11,8 @@ import { Session } from './dto/session.dto';
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectPinoLogger(AuthService.name)
+    private readonly logger: PinoLogger,
     private readonly firebaseService: FirebaseService,
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
@@ -54,19 +56,17 @@ export class AuthService {
   }
 
   async signUp(userIn: UserIn): Promise<Session> {
-    let firebaseUser;
-    try {
-      firebaseUser = await this.firebaseService.createUser({
+    const [firebaseUser, _] = await Promise.all([
+      await this.firebaseService.createUser({
         email: userIn.email,
         emailVerified: false,
         password: userIn.password,
-      });
-      await this.userService.create(userIn);
-    } catch (error) {
-      if (PrismaErrorClasses.includes(error.constructor) && firebaseUser) {
-        await this.firebaseService.deleteUser(firebaseUser.uid);
-      }
-      throw error;
+      }),
+      await this.userService.create(userIn),
+    ]);
+    if (!firebaseUser) {
+      this.logger.error('Error creating Firebase user');
+      throw new UnauthorizedException('Error creating user');
     }
     return await this.login(userIn.email, userIn.password);
   }
