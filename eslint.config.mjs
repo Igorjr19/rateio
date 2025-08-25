@@ -1,8 +1,8 @@
-import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
 import { FlatCompat } from '@eslint/eslintrc';
-import { fileURLToPath } from 'node:url';
+import eslint from '@eslint/js';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import tseslint from 'typescript-eslint';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,6 +39,7 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/consistent-type-imports': 'error',
+      '@typescript-eslint/no-floating-promises': 'warn',
       'prettier/prettier': ['error', { endOfLine: 'auto' }],
     },
   },
