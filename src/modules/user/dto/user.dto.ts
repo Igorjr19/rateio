@@ -24,6 +24,10 @@ export class UserIn {
 
   @ApiProperty()
   @Expose()
+  document: string;
+
+  @ApiProperty()
+  @Expose()
   @IsStrongPassword()
   password: string;
 

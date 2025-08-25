@@ -40,6 +40,7 @@
     "class-validator": "^0.14.2",
     "firebase": "^11.7.3",
     "firebase-admin": "^13.4.0",
+    "jsonwebtoken": "^9.0.2",
     "nestjs-pino": "^4.4.0",
     "passport": "^0.7.0",
     "passport-custom": "^1.1.1",
