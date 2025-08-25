@@ -13,8 +13,6 @@ services:
       - POSTGRES_HOST=db
     volumes:
       - ./package.json:/app/package.json
-      - ./src:/app/src
-      - ./prisma:/app/prisma
     depends_on:
       - db
     networks:
