@@ -10,6 +10,9 @@ export class User extends BaseEntity {
   @Property({ type: 'uuid' })
   id: string;
 
+  @Property({ nullable: false, unique: true, index: true })
+  document: string;
+
   @Property({ nullable: false, unique: true })
   email: string;
 
