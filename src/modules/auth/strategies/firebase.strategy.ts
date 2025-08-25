@@ -21,8 +21,7 @@ export class FirebaseStrategy extends PassportStrategy(Strategy, 'firebase') {
       const decodedToken = await this.firebaseService.verifyIdToken(token);
 
       const customClaims = decodedToken as any;
-
-      if (!customClaims.userId || !customClaims.email || !customClaims.role) {
+      if (!customClaims.user_id || !customClaims.email || !customClaims.role) {
         throw new UnauthorizedException('Invalid token claims');
       }
 

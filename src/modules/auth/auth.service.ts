@@ -44,12 +44,11 @@ export class AuthService {
 
     const firebaseUid = userCredential.user.uid;
 
-    const encryptedEmail = await this.cryptoService.encrypt(email);
+    const encryptedDocument = await this.cryptoService.encrypt(email);
 
     const customClaims = {
       role: user.role,
-      userId: user.id,
-      email: encryptedEmail,
+      document: encryptedDocument,
     };
 
     const customToken = await this.firebaseService.createCustomToken(
@@ -105,32 +104,7 @@ export class AuthService {
       throw new UnauthorizedException('Error creating user');
     }
 
-    const encryptedEmail = await this.cryptoService.encrypt(userIn.email);
-
-    const customClaims = {
-      role: user.role,
-      userId: user.id,
-      email: encryptedEmail,
-    };
-
-    const customToken = await this.firebaseService.createCustomToken(
-      firebaseUser.uid,
-      customClaims,
-    );
-
-    const auth = getAuth(this.firebaseService.getApp());
-    const customCredential = await signInWithCustomToken(auth, customToken);
-    const cleanIdToken = await customCredential.user.getIdToken();
-
-    const decodedToken = this.jwtService.decode(cleanIdToken);
-    const expiresIn = parseInt(decodedToken.exp) * 1000;
-
-    const session = new Session({
-      token: cleanIdToken,
-      expiresIn: expiresIn,
-    });
-
-    return session;
+    return await this.login(userIn.email, userIn.password);
   }
 
   private async anonymizeEmail(email: string): Promise<string> {
