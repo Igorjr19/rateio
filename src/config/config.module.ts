@@ -1,3 +1,5 @@
+import '../util/env.loader';
+
 import { Module } from '@nestjs/common';
 import { ConfigModule as BaseConfigModule } from '@nestjs/config';
 

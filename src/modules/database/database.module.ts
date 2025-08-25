@@ -13,6 +13,7 @@ export const DatabaseEntities = (entities: EntityName<Partial<any>>[]) =>
   imports: [
     MikroOrmModule.forRootAsync({
       inject: [ConfigService],
+      driver: PostgreSqlDriver,
       useFactory: async (configService: ConfigService) => {
         const config = configService.get<DatabaseConfig>('database');
         return {

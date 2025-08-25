@@ -1,9 +1,8 @@
+import './src/util/env.loader';
+
 import { TSMigrationGenerator } from '@mikro-orm/migrations';
 import type { MikroORMOptions } from '@mikro-orm/postgresql';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { config } from 'dotenv';
-
-config();
 
 const mikroOrmConfig: Partial<MikroORMOptions> = {
   dbName: process.env.POSTGRES_NAME || 'postgres',
