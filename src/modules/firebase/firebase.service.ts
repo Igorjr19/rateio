@@ -1,7 +1,8 @@
+// eslint-disable-next-line simple-import-sort/imports
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import * as admin from 'firebase-admin';
 import * as client from 'firebase/app';
 import { FirebaseApp } from 'firebase/app';
-import * as admin from 'firebase-admin';
 import firebaseConfig, { FirebaseConfig } from 'src/config/firebase.config';
 
 @Injectable()
@@ -14,9 +15,9 @@ export class FirebaseService implements OnModuleInit {
     private readonly config: FirebaseConfig,
   ) {}
 
-  onModuleInit() {
+  async onModuleInit() {
     for (const app of admin.apps) {
-      app.delete();
+      await app.delete();
     }
 
     this.app = client.initializeApp(this.config, 'client');
@@ -37,19 +38,35 @@ export class FirebaseService implements OnModuleInit {
     return this.app;
   }
 
-  verifyIdToken(token: string) {
-    return this.admin.auth().verifyIdToken(token);
+  async verifyIdToken(token: string) {
+    return await this.admin.auth().verifyIdToken(token);
   }
 
-  createUser(user: admin.auth.CreateRequest) {
+  async createUser(user: admin.auth.CreateRequest) {
     try {
-      return this.admin.auth().createUser(user);
+      return await this.admin.auth().createUser(user);
     } catch (error) {
       return null;
     }
   }
 
-  deleteUser(uid: string) {
-    return this.admin.auth().deleteUser(uid);
+  async deleteUser(uid: string) {
+    return await this.admin.auth().deleteUser(uid);
+  }
+
+  async createCustomToken(uid: string, customClaims?: object) {
+    return await this.admin.auth().createCustomToken(uid, customClaims);
+  }
+
+  async setCustomUserClaims(uid: string, customClaims: object) {
+    return await this.admin.auth().setCustomUserClaims(uid, customClaims);
+  }
+
+  async getUserByEmail(email: string) {
+    try {
+      return await this.admin.auth().getUserByEmail(email);
+    } catch (error) {
+      return null;
+    }
   }
 }
