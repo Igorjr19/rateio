@@ -14,6 +14,7 @@ export class AuthGuard extends BaseAuthGuard('firebase') {
       context.getHandler(),
       context.getClass(),
     ]);
+
     if (isPublic) {
       return true;
     }

@@ -8,10 +8,18 @@ export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   async findByEmail(email: string) {
-    return this.userRepository.findByEmail(email);
+    return await this.userRepository.findByEmail(email);
+  }
+
+  async findByDocument(document: string) {
+    return await this.userRepository.findByDocument(document);
   }
 
   async create(user: UserIn) {
     return await this.userRepository.createUser(user);
+  }
+
+  async list() {
+    return this.userRepository.findAll();
   }
 }

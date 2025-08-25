@@ -44,7 +44,7 @@ export class AuthService {
 
     const firebaseUid = userCredential.user.uid;
 
-    const encryptedDocument = await this.cryptoService.encrypt(email);
+    const encryptedDocument = await this.cryptoService.encrypt(user.document);
 
     const customClaims = {
       role: user.role,

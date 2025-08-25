@@ -7,11 +7,15 @@ import { User } from './entities/user.entity';
 @Injectable()
 export class UserRepository extends EntityRepository<User> {
   async findByEmail(email: string): Promise<User> {
-    return this.findOne({ email });
+    return await this.findOne({ email });
+  }
+
+  async findByDocument(document: string): Promise<User> {
+    return await this.findOne({ document });
   }
 
   async createUser(userIn: UserIn): Promise<User> {
-    const user = this.create(userIn);
+    const user = await this.create(userIn);
     await this.em.persistAndFlush(user);
     return user;
   }
